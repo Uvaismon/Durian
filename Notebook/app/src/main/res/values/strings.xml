@@ -1,8 +1,3 @@
 <resources>
     <string name="app_name">Notebook</string>
-    <string name="label">Label</string>
-    <string name="enter_password">Enter password</string>
-    <string name="re_enter_password">Re-enter password</string>
-    <string name="create">Create</string>
-    <string name="create_label">Create Label</string>
 </resources>

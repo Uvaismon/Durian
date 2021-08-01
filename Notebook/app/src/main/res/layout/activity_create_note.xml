@@ -7,7 +7,7 @@
     tools:context=".CreateNote">
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/titleEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -23,7 +23,7 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+        android:layout_below="@id/titleEntry"
         android:paddingStart="@dimen/left_pad"
         android:paddingEnd="@dimen/left_pad"
         android:orientation="horizontal">
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/contents"
+        android:id="@+id/contentsEntry"
         android:layout_width="match_parent"
         android:layout_height="500sp"
         android:ems="10"
@@ -60,7 +60,7 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/contents"
+        android:layout_below="@+id/contentsEntry"
         android:background="@drawable/custom_button1"
         android:layout_margin="@dimen/entry_margin"
         android:text="@string/save"/>

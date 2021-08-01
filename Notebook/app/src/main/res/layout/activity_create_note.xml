@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateNote">
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_margin="@dimen/entry_margin"
+        android:inputType="text"
+        android:drawableStart="@drawable/ic_title"
+        android:background="@drawable/selected_box"
+        android:drawablePadding="@dimen/drawable_padding"
+        android:padding="10sp"
+        android:hint="@string/title" />
+
+    <LinearLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:paddingStart="@dimen/left_pad"
+        android:paddingEnd="@dimen/left_pad"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:text="@string/choose_title"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/labelList"
+            android:layout_width="match_parent"
+            android:layout_margin="2sp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/contents"
+        android:layout_width="match_parent"
+        android:layout_height="500sp"
+        android:ems="10"
+        android:layout_below="@id/titleBar"
+        android:layout_marginLeft = "@dimen/entry_margin"
+        android:layout_marginRight="@dimen/entry_margin"
+        android:background="@drawable/selected_box"
+        android:padding="10sp"
+        android:gravity="start|top"
+        android:hint="@string/contents"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contents"
+        android:background="@drawable/custom_button1"
+        android:layout_margin="@dimen/entry_margin"
+        android:text="@string/save"/>
+
+
+</RelativeLayout>

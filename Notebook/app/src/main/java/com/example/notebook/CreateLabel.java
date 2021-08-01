@@ -28,7 +28,7 @@ public class CreateLabel extends AppCompatActivity {
         label = findViewById(R.id.labelEntry);
         passwordEntry = findViewById(R.id.passwordEntry);
         passwordReEntry = findViewById(R.id.passwordReEntry);
-        createButton = findViewById(R.id.createButton);
+        createButton = findViewById(R.id.createUpdateButton);
         heading = findViewById(R.id.heading);
 
         heading.setText(R.string.create_label);
@@ -43,12 +43,7 @@ public class CreateLabel extends AppCompatActivity {
                 String enteredPassword = passwordEntry.getText().toString();
                 String reEnteredPassword = passwordReEntry.getText().toString();
 
-                Log.d("Label text", enteredLabel);
-                Log.d("Password text", enteredPassword);
-                Log.d("Re-entered Password", reEnteredPassword);
-
                 long res = dbInsert(enteredLabel, enteredPassword);
-                testing();
             }
         });
     }

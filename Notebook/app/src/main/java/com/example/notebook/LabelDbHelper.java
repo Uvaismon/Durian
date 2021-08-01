@@ -13,7 +13,7 @@ public class LabelDbHelper extends SQLiteOpenHelper {
     public static final String LABEL_NAME = "name";
     public static final String PASSWORD = "password";
     public static final String TABLE_NAME = "Label";
-    public static final String DBNAME = "NOTEBOOK";
+    public static final String DBNAME = "NOTEBOOK.db";
 
 
 

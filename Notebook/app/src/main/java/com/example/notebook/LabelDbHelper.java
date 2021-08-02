@@ -17,7 +17,7 @@ public class LabelDbHelper extends SQLiteOpenHelper {
 
 
 
-    public LabelDbHelper(@Nullable Context context) {
+    public LabelDbHelper(Context context) {
         super(context, DBNAME, null, 1);
     }
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/entry_margin"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="81dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/card_padding"
+            android:paddingEnd="@dimen/card_padding">
+
+
+            <TextView
+                android:id="@+id/cardTitleBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:textSize="26sp"
+                android:textStyle="bold|italic"/>
+
+            <TextView
+                android:id="@+id/cardContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:layout_below="@id/cardTitleBar"
+                android:textSize="22sp"/>
+
+            <TextView
+                android:id="@+id/cardTimestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="01/01/2000 00:00"
+                android:layout_below="@id/cardContent"
+                android:textAlignment="textEnd"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

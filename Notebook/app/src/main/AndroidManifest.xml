@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notebook">
         <activity
-            android:name=".CreateNote"
+            android:name=".ViewNote"
             android:exported="true"/>
+        <activity
+            android:name=".CreateNote"
+            android:exported="true" />
         <activity
             android:name=".CreateLabel"
             android:exported="true" />

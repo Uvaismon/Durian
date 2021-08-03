@@ -1,6 +1,7 @@
 package com.example.notebook;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyViewHolder> {
 
-    private Context context;
-    private String[] title, content, timestamp;
+    private final Context context;
+    private final String[] title;
+    private final String[] content;
+    private final String[] timestamp;
 
     NotesListAdapter(Context context, String[] title, String[] contents, String[] timestamp) {
         this.context = context;
@@ -21,11 +24,19 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         this.timestamp = timestamp;
     }
 
+    View.OnClickListener test = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d("Card click event", "onClick: Card clicked");
+        }
+    };
+
     @NonNull
     @Override
     public NotesListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.notes_card, parent, false);
+        view.setOnClickListener(test);
         return new MyViewHolder(view);
     }
 

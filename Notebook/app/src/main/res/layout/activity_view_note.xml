@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewNote">
+
+    <RelativeLayout
+        android:id="@+id/noteTitles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/entry_margin"
+        android:layout_marginTop="@dimen/entry_margin">
+
+        <RelativeLayout
+            android:id="@+id/leftViewGroup"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/noteTitleBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="This is a test Title" />
+
+            <TextView
+                android:id="@+id/noteLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/noteTitleBar"
+                android:layout_marginTop="5sp"
+                android:textStyle="italic"
+                android:text="Label" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rightViewGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/leftViewGroup">
+
+            <Button
+                android:id="@+id/editButton"
+                android:layout_width="60sp"
+                android:layout_height="20sp"
+                android:background="@drawable/custom_button1"
+                android:text="@string/edit" />
+
+            <Button
+                android:layout_width="60sp"
+                android:layout_height="20sp"
+                android:layout_below="@id/editButton"
+                android:background="@drawable/custom_button1"
+                android:layout_marginTop="5sp"
+                android:text="Delete"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/entry_margin"
+        android:text="This is a test content.\nPlease feel free to write anything here."
+        android:layout_below="@id/noteTitles"/>
+
+</RelativeLayout>

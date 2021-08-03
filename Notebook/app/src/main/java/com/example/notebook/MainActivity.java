@@ -4,14 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.CpuUsageInfo;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.View;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NotesListAdapter.NoteClickListener {
 
     NotesDbHelper notesDbHelper;
     SQLiteDatabase notesDb;
@@ -26,18 +28,20 @@ public class MainActivity extends AppCompatActivity {
 
         mainRecyclerView = findViewById(R.id.mainRecyclerView);
 
+
+        notesDbHelper = new NotesDbHelper(this);
+        notesDb = notesDbHelper.getReadableDatabase();
+
         loadNotesList();
 
         notesListAdapter = new NotesListAdapter(MainActivity.this, title, contents
-                , timestamp);
+                , timestamp, this);
         mainRecyclerView.setAdapter(notesListAdapter);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
     }
 
     private void loadNotesList() {
-        notesDbHelper = new NotesDbHelper(this);
-        notesDb = notesDbHelper.getReadableDatabase();
         String[] projections = {NotesDbHelper.TITLE, NotesDbHelper.CONTENTS,
                 NotesDbHelper.TIMESTAMP};
 
@@ -54,5 +58,29 @@ public class MainActivity extends AppCompatActivity {
             timestamp[i] = c.getString(2);
         }
         c.close();
+    }
+
+    @Override
+    public void onClick(String timestamp) {
+        Intent noteView = new Intent(this, ViewNote.class);
+        Bundle extras = new Bundle();
+        String[] projections = {NotesDbHelper.TITLE, NotesDbHelper.CONTENTS,
+                NotesDbHelper.TIMESTAMP, LabelDbHelper.LABEL_NAME};
+
+        Cursor c = notesDb.query(NotesDbHelper.TABLE_NAME, projections,
+                NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp},
+                null, null, null);
+
+        Log.d("Timestamp", timestamp);
+
+        c.moveToFirst();
+
+        extras.putString(NotesDbHelper.TITLE, c.getString(0));
+        extras.putString(NotesDbHelper.CONTENTS, c.getString(1));
+        extras.putString(NotesDbHelper.TIMESTAMP, c.getString(2));
+        extras.putString(LabelDbHelper.LABEL_NAME, c.getString(3));
+        noteView.putExtras(extras);
+        c.close();
+        startActivity(noteView);
     }
 }

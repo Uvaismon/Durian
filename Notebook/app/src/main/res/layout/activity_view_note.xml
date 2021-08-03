@@ -63,6 +63,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/noteContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/entry_margin"

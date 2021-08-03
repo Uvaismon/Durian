@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Test"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:textStyle="bold|italic"/>
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="test"
                 android:layout_below="@id/cardTitleBar"
-                android:textSize="22sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/cardTimestamp"

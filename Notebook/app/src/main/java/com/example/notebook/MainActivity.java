@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
     SQLiteDatabase notesDb;
     LabelDbHelper labelDbHelper;
     SQLiteDatabase labelDb;
-    String[] title, contents, timestamp;
+    String[] title, contents, timestamp, label;
     NotesListAdapter notesListAdapter;
     RecyclerView mainRecyclerView;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
         loadNotesList();
 
         notesListAdapter = new NotesListAdapter(MainActivity.this, title, contents
-                , timestamp, this);
+                , timestamp, label, this);
         mainRecyclerView.setAdapter(notesListAdapter);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
@@ -76,15 +76,17 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
         title = new String[c.getCount()];
         contents = new String[c.getCount()];
         timestamp = new String[c.getCount()];
+        label = new String[c.getCount()];
 
         for (int i = 0; c.moveToNext(); i++){
             title[i] = c.getString(0);
             tempContents = c.getString(1);
             timestamp[i] = c.getString(2);
             contents[i] = tempContents.substring(0, Math.min(tempContents.length(), 30)) + " ...";
-//            if(passProtected.get(c.getString(3))) {
-//                contents[i] = "Password protected note.";
-//            }
+            label[i] = c.getString(3);
+            if(passProtected.get(label[i])) {
+                contents[i] = "Password protected note.";
+            }
         }
         c.close();
         labelC.close();

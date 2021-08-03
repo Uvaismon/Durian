@@ -17,14 +17,16 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
     private final String[] title;
     private final String[] content;
     private final String[] timestamp;
-    private NoteClickListener notesClickListener;
+    private final String[] label;
+    private final NoteClickListener notesClickListener;
 
     NotesListAdapter(Context context, String[] title, String[] contents, String[] timestamp,
-                     NoteClickListener notesClickListener) {
+                     String[] label, NoteClickListener notesClickListener) {
         this.context = context;
         this.title = title;
         this.content = contents;
         this.timestamp = timestamp;
+        this.label = label;
         this.notesClickListener = notesClickListener;
     }
 
@@ -41,6 +43,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         holder.titleView.setText(title[position]);
         holder.contentView.setText(content[position]);
         holder.timestampView.setText(timestamp[position]);
+        holder.labelView.setText(label[position]);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView titleView, contentView, timestampView;
+        TextView titleView, contentView, timestampView, labelView;
         NoteClickListener noteClickListener;
 
         public MyViewHolder(@NonNull View itemView, NoteClickListener noteClickListener) {
@@ -58,6 +61,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
             titleView = itemView.findViewById(R.id.cardTitleBar);
             contentView = itemView.findViewById(R.id.cardContent);
             timestampView = itemView.findViewById(R.id.cardTimestamp);
+            labelView = itemView.findViewById(R.id.cardLabel);
             this.noteClickListener = noteClickListener;
             itemView.setOnClickListener(this);
         }

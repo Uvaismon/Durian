@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -23,16 +24,26 @@
                 android:id="@+id/cardTitleBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test"
+                android:text="Test title"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"/>
+
+            <TextView
+                android:id="@+id/cardLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardTitleBar"
+                android:paddingStart="10sp"
+                android:paddingEnd="10sp"
+                android:text="test label"
+                app:drawableStartCompat="@drawable/ic_label" />
 
             <TextView
                 android:id="@+id/cardContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="test"
-                android:layout_below="@id/cardTitleBar"
+                android:text="test content"
+                android:layout_below="@id/cardLabel"
                 android:textSize="16sp"/>
 
             <TextView

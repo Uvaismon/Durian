@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
     String[] title, contents, timestamp, label;
     NotesListAdapter notesListAdapter;
     RecyclerView mainRecyclerView;
+    HashMap<String, Boolean> passProtected = new HashMap<>();
 
     AlertDialog.Builder passwordDialogBuilder;
     AlertDialog passwordDialog;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
         Cursor labelC = labelDb.query(LabelDbHelper.TABLE_NAME, labelProjection, null,
                 null, null, null,null);
 
-        HashMap<String, Boolean> passProtected = new HashMap<>();
 
         for (int i = 0; labelC.moveToNext(); i++)
             passProtected.put(labelC.getString(0),
@@ -94,7 +94,16 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
 
     @Override
     public void onClick(String timestamp) {
-        createPasswordDialog(timestamp);
+        Cursor c = notesDb.query(NotesDbHelper.TABLE_NAME, new String[]{LabelDbHelper.LABEL_NAME},
+                NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp},
+                null, null, null);
+        c.moveToFirst();
+        Boolean pass = passProtected.get(c.getString(0));
+        c.close();
+        if(pass)
+            createPasswordDialog(timestamp);
+        else
+            viewNote(timestamp, "");
     }
 
     public void createPasswordDialog(String timestamp) {
@@ -115,10 +124,15 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
                     viewNote(timestamp, enteredPassword);
                 }
         );
+
+        cancelButton.setOnClickListener(
+                v -> {
+                    passwordDialog.dismiss();
+                }
+        );
     }
 
     public void viewNote(String timestamp, String enteredPassword) {
-
         Intent noteView = new Intent(this, ViewNote.class);
         Bundle extras = new Bundle();
         String[] projections = {NotesDbHelper.TITLE, NotesDbHelper.CONTENTS,
@@ -130,10 +144,13 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
 
         c.moveToFirst();
 
-        if(!authenticate(c.getString(3), enteredPassword)) {
-            Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
-            c.close();
-            return;
+        if (passProtected.get(c.getString(3))) {
+            if (!authenticate(c.getString(3), enteredPassword)) {
+                Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
+                c.close();
+                return;
+            }
+            passwordDialog.dismiss();
         }
 
         extras.putString(NotesDbHelper.TITLE, c.getString(0));

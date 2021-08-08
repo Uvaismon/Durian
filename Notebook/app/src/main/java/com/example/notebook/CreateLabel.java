@@ -3,6 +3,7 @@ package com.example.notebook;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.strictmode.SqliteObjectLeakedViolation;
@@ -59,16 +60,4 @@ public class CreateLabel extends AppCompatActivity {
         return db.insert(LabelDbHelper.TABLE_NAME, null, values);
     }
 
-    private void testing() {
-        LabelDbHelper dbHelper = new LabelDbHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projections = {LabelDbHelper.LABEL_NAME, LabelDbHelper.PASSWORD};
-
-        Cursor c = db.query(LabelDbHelper.TABLE_NAME, projections, LabelDbHelper.LABEL_NAME + "=?", new String[]{"Todo"},
-                null, null, null);
-        c.moveToFirst();
-        Log.d("Search Result", c.getString(1));
-        c.close();
-    }
 }

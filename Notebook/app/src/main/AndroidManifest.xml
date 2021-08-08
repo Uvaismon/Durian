@@ -11,8 +11,8 @@
         android:theme="@style/Theme.Notebook">
         <activity
             android:name=".ViewNote"
-            android:parentActivityName=".MainActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CreateNote"
             android:exported="true" />

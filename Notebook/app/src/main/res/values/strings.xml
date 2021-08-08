@@ -12,5 +12,5 @@
     <string name="edit">Edit</string>
     <string name="open">Open</string>
     <string name="cancel">Cancel</string>
-    <string name="password_msg">This label is password protected.<br/>Please enter the password to unlock.</string>
+    <string name="password_msg">This label is password protected.<br />Please enter the password to unlock.</string>
 </resources>

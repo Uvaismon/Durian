@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.database.sqlite.*;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.internal.ParcelableSparseArray;
 
@@ -45,8 +46,17 @@ public class CreateLabel extends AppCompatActivity {
                 String reEnteredPassword = passwordReEntry.getText().toString();
 
                 long res = dbInsert(enteredLabel, enteredPassword);
+                if (res == -1) {
+                    Toast.makeText(CreateLabel.this, "Label already exists", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                go_label_home();
             }
         });
+    }
+
+    public void go_label_home() {
+        startActivity(new Intent(this, LabelList.class));
     }
 
     private long dbInsert(String label_name, String  password) {

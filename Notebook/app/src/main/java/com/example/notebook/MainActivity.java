@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
 
         loadNotesList();
 
-        notesListAdapter = new NotesListAdapter(MainActivity.this, title, contents
-                , timestamp, label, this);
+        notesListAdapter = new NotesListAdapter(MainActivity.this, title, contents,
+                timestamp, label, this);
         mainRecyclerView.setAdapter(notesListAdapter);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 

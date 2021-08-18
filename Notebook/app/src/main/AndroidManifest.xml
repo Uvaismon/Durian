@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notebook">
         <activity
+            android:name=".LabelList"
+            android:exported="true" />
+        <activity
             android:name=".ViewNote"
             android:exported="true"
             android:parentActivityName=".MainActivity" />

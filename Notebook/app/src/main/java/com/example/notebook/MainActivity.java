@@ -1,5 +1,6 @@
 package com.example.notebook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +57,23 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
         mainRecyclerView.setAdapter(notesListAdapter);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.createNoteMenu:
+                startActivity(new Intent(this, CreateNote.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadNotesList() {

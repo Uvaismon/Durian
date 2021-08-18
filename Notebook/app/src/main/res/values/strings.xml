@@ -13,4 +13,6 @@
     <string name="open">Open</string>
     <string name="cancel">Cancel</string>
     <string name="password_msg">This label is password protected.<br />Please enter the password to unlock.</string>
+    <string name="new_note">New note</string>
+    <string name="labels">Labels</string>
 </resources>

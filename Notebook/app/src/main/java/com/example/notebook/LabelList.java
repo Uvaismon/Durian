@@ -66,6 +66,9 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
     public void onClick(String element) {
 
         Intent intent = new Intent(this, CreateLabel.class);
+
+        if(element.equals("General"))
+            return;
         
         if(element.equals("Add label")) {
             startActivity(new Intent(this, CreateLabel.class));
@@ -80,8 +83,10 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
         
         if(!c.getString(0).equals("")) {
             createPasswordDialog(element, c.getString(0));
+            c.close();
             return;
         }
+        c.close();
 
         intent.putExtra(DbHelper.LABEL_NAME, element);
         startActivity(intent);
@@ -106,6 +111,7 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
                     if(password.equals(enteredPassword)) {
                         Intent intent = new Intent(LabelList.this, CreateLabel.class);
                         intent.putExtra(DbHelper.LABEL_NAME, element);
+                        passwordDialog.dismiss();
                         startActivity(intent);
                     }
                     else{

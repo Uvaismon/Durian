@@ -1,5 +1,6 @@
 package com.example.notebook;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,6 +43,11 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_LABEL_TABLE);
         db.execSQL(CREATE_NOTE_TABLE);
+
+        ContentValues values = new ContentValues();
+        values.put(LABEL_NAME, "General");
+        values.put(PASSWORD, "");
+        db.insert(LABEL_TABLE_NAME, null, values);
     }
 
     @Override

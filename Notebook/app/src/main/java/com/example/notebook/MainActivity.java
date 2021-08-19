@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
             case R.id.createNoteMenu:
                 startActivity(new Intent(this, CreateNote.class));
                 break;
+
+            case R.id.labelsMenu:
+                startActivity(new Intent(this, LabelList.class));
         }
         return super.onOptionsItemSelected(item);
     }

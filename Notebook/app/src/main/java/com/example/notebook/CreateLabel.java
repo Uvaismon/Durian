@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +14,15 @@ import android.database.sqlite.*;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.internal.ParcelableSparseArray;
+import java.sql.SQLData;
 
 public class CreateLabel extends AppCompatActivity {
 
     EditText label, passwordEntry, passwordReEntry;
-    Button createButton;
+    Button createButton, deleteButton;
     TextView heading;
+    Intent intent;
+    String prefilledLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class CreateLabel extends AppCompatActivity {
         passwordReEntry = findViewById(R.id.passwordReEntry);
         createButton = findViewById(R.id.createUpdateButton);
         heading = findViewById(R.id.heading);
+        deleteButton = findViewById(R.id.deleteLabelButton);
 
         heading.setText(R.string.create_label);
         createButton.setText(R.string.create);
@@ -51,12 +53,49 @@ public class CreateLabel extends AppCompatActivity {
                     return;
                 }
                 go_label_home();
+                Log.d("Update return value.", String.valueOf(res));
             }
         });
+
+        intent = getIntent();
+        if (intent.hasExtra(LabelDbHelper.LABEL_NAME)) {
+            prefilledLabel = intent.getStringExtra(LabelDbHelper.LABEL_NAME);
+            preFillData();
+            
+        deleteButton.setOnClickListener( v -> {
+           long res = dbDelete(prefilledLabel);
+           if (res < 1) {
+               Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show();
+           }
+           else
+               startActivity(new Intent(this, LabelList.class));
+        });
+        
+        }
+
     }
 
     public void go_label_home() {
         startActivity(new Intent(this, LabelList.class));
+    }
+
+    public void preFillData() {
+        LabelDbHelper labelDbHelper = new LabelDbHelper(this);
+        SQLiteDatabase labelDb = labelDbHelper.getReadableDatabase();
+
+        String[] projection = {LabelDbHelper.LABEL_NAME, LabelDbHelper.PASSWORD};
+
+        Cursor c = labelDb.query(LabelDbHelper.TABLE_NAME, projection,
+                LabelDbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel},
+                null, null, null);
+
+        c.moveToFirst();
+        label.setText(c.getString(0));
+        passwordEntry.setText(c.getString(1));
+        passwordEntry.setText(c.getString(1));
+        createButton.setText(R.string.update);
+        deleteButton.setVisibility(View.VISIBLE);
+        c.close();
     }
 
     private long dbInsert(String label_name, String  password) {
@@ -67,7 +106,19 @@ public class CreateLabel extends AppCompatActivity {
         values.put(LabelDbHelper.LABEL_NAME, label_name);
         values.put(LabelDbHelper.PASSWORD, password);
 
+        if(intent.hasExtra(LabelDbHelper.LABEL_NAME)) {
+            return db.update(LabelDbHelper.TABLE_NAME, values,
+                    LabelDbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel});
+        }
+
         return db.insert(LabelDbHelper.TABLE_NAME, null, values);
     }
+    
+    private long dbDelete(String label_name) {
+        LabelDbHelper labelDbHelper = new LabelDbHelper(this);
+        SQLiteDatabase labelDb = labelDbHelper.getWritableDatabase();
 
+        return labelDb.delete(LabelDbHelper.TABLE_NAME, LabelDbHelper.LABEL_NAME + "=?",
+                new String[]{label_name});
+    }
 }

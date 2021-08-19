@@ -17,7 +17,7 @@ public class NotesDbHelper extends SQLiteOpenHelper {
 
     public  static final String CREATE_TABLE = String.format(
             "create table %s (%s text, %s text, %s text NOT NULL PRIMARY KEY, %s text," +
-                    " FOREIGN KEY(%s) REFERENCES %s(%s));",
+                    " FOREIGN KEY(%s) REFERENCES %s(%s) ON DELETE CASCADE);",
             TABLE_NAME, TITLE, CONTENTS, TIMESTAMP, LabelDbHelper.LABEL_NAME,
             LabelDbHelper.LABEL_NAME, LabelDbHelper.TABLE_NAME, LabelDbHelper.LABEL_NAME
     );

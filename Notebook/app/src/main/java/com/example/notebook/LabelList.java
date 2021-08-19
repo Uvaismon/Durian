@@ -57,8 +57,10 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
 
         Intent intent = new Intent(this, CreateLabel.class);
 
-        if(element.equals("Add label")) {
-            startActivity(intent);
+        if (!element.equals("Add label")) {
+            intent.putExtra(LabelDbHelper.LABEL_NAME, element);
         }
+        startActivity(intent);
+
     }
 }

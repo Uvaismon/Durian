@@ -50,4 +50,12 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(DELETE_LABEL_TABLE);
         onCreate(db);
     }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
 }

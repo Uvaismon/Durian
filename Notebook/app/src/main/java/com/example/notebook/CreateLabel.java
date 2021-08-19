@@ -47,6 +47,11 @@ public class CreateLabel extends AppCompatActivity {
                 String enteredPassword = passwordEntry.getText().toString();
                 String reEnteredPassword = passwordReEntry.getText().toString();
 
+                if(!enteredPassword.equals(reEnteredPassword)) {
+                    Toast.makeText(CreateLabel.this, "Passwords doesn't match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 long res = dbInsert(enteredLabel, enteredPassword);
                 if (res == -1) {
                     Toast.makeText(CreateLabel.this, "Label already exists", Toast.LENGTH_SHORT).show();

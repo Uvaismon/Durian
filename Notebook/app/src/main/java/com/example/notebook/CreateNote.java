@@ -23,7 +23,7 @@ public class CreateNote extends AppCompatActivity {
     Button saveButton;
     EditText titleEntry, contentsEntry;
 
-    NotesDbHelper notesDbHelper;
+    DbHelper notesDbHelper;
     SQLiteDatabase notesDb;
 
     @Override
@@ -31,7 +31,7 @@ public class CreateNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
-        notesDbHelper = new NotesDbHelper(this);
+        notesDbHelper = new DbHelper(this);
         notesDb = notesDbHelper.getWritableDatabase();
 
         labelList = findViewById(R.id.labelList);
@@ -39,10 +39,10 @@ public class CreateNote extends AppCompatActivity {
         titleEntry = findViewById(R.id.titleEntry);
         contentsEntry = findViewById(R.id.contentsEntry);
 
-        LabelDbHelper labelDbHelper = new LabelDbHelper(this);
+        DbHelper labelDbHelper = new DbHelper(this);
         SQLiteDatabase labelDb = labelDbHelper.getReadableDatabase();
 
-        Cursor c = labelDb.query(LabelDbHelper.TABLE_NAME, new String[]{LabelDbHelper.LABEL_NAME},
+        Cursor c = labelDb.query(DbHelper.LABEL_TABLE_NAME, new String[]{DbHelper.LABEL_NAME},
                 null, null, null, null, null);
 
         ArrayList<String> labels = new ArrayList<>();
@@ -58,11 +58,11 @@ public class CreateNote extends AppCompatActivity {
 
             Intent editIntent = getIntent();
             String timestamp = editIntent.getData().toString();
-            String[] notesProjection = new String[]{NotesDbHelper.TITLE, LabelDbHelper.LABEL_NAME,
-                    NotesDbHelper.CONTENTS};
+            String[] notesProjection = new String[]{DbHelper.TITLE, DbHelper.LABEL_NAME,
+                    DbHelper.CONTENTS};
 
-            Cursor notesC = notesDb.query(NotesDbHelper.TABLE_NAME, notesProjection,
-                    NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp},null,
+            Cursor notesC = notesDb.query(DbHelper.NOTES_TABLE_NAME, notesProjection,
+                    DbHelper.TIMESTAMP + "=?", new String[]{timestamp},null,
                     null, null);
 
             saveButton.setOnClickListener(
@@ -100,28 +100,28 @@ public class CreateNote extends AppCompatActivity {
 
     private long dbInsert(String title, String label, String contents) {
         ContentValues values = new ContentValues();
-        values.put(NotesDbHelper.TITLE, title);
-        values.put(NotesDbHelper.CONTENTS, contents);
-        values.put(LabelDbHelper.LABEL_NAME, label);
-        values.put(NotesDbHelper.TIMESTAMP, new Timestamp(System.currentTimeMillis()).toString());
+        values.put(DbHelper.TITLE, title);
+        values.put(DbHelper.CONTENTS, contents);
+        values.put(DbHelper.LABEL_NAME, label);
+        values.put(DbHelper.TIMESTAMP, new Timestamp(System.currentTimeMillis()).toString());
 
-        Log.d("Title", values.getAsString(NotesDbHelper.TITLE));
-        Log.d("Contents", values.getAsString(NotesDbHelper.CONTENTS));
-        Log.d("Label name", values.getAsString(LabelDbHelper.LABEL_NAME));
-        Log.d("Timestamp", values.getAsString(NotesDbHelper.TIMESTAMP));
+        Log.d("Title", values.getAsString(DbHelper.TITLE));
+        Log.d("Contents", values.getAsString(DbHelper.CONTENTS));
+        Log.d("Label name", values.getAsString(DbHelper.LABEL_NAME));
+        Log.d("Timestamp", values.getAsString(DbHelper.TIMESTAMP));
 
-        return notesDb.insert(NotesDbHelper.TABLE_NAME, null, values);
+        return notesDb.insert(DbHelper.NOTES_TABLE_NAME, null, values);
     }
 
     private long dbUpdate(String title, String label, String contents, String timestamp) {
         ContentValues values = new ContentValues();
-        values.put(NotesDbHelper.TITLE, title);
-        values.put(NotesDbHelper.CONTENTS, contents);
-        values.put(LabelDbHelper.LABEL_NAME, label);
-        values.put(NotesDbHelper.TIMESTAMP, new Timestamp(System.currentTimeMillis()).toString());
+        values.put(DbHelper.TITLE, title);
+        values.put(DbHelper.CONTENTS, contents);
+        values.put(DbHelper.LABEL_NAME, label);
+        values.put(DbHelper.TIMESTAMP, new Timestamp(System.currentTimeMillis()).toString());
 
-        return notesDb.update(NotesDbHelper.TABLE_NAME, values,
-                NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp});
+        return notesDb.update(DbHelper.NOTES_TABLE_NAME, values,
+                DbHelper.TIMESTAMP + "=?", new String[]{timestamp});
     }
 
     private void editFill(String title, String label, String content) {
@@ -135,11 +135,11 @@ public class CreateNote extends AppCompatActivity {
     }
 
     public void deleteNote(String timestamp) {
-        notesDbHelper = new NotesDbHelper(this);
+        notesDbHelper = new DbHelper(this);
         notesDb = notesDbHelper.getWritableDatabase();
 
-        notesDb.delete(NotesDbHelper.TABLE_NAME,
-                NotesDbHelper.TIMESTAMP + "=?",
+        notesDb.delete(DbHelper.NOTES_TABLE_NAME,
+                DbHelper.TIMESTAMP + "=?",
                 new String[]{timestamp});
         startActivity(new Intent(this, MainActivity.class));
     }

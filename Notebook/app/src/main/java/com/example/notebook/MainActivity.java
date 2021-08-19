@@ -23,10 +23,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NotesListAdapter.NoteClickListener {
 
-    NotesDbHelper notesDbHelper;
-    SQLiteDatabase notesDb;
-    LabelDbHelper labelDbHelper;
-    SQLiteDatabase labelDb;
+    DbHelper dbHelper;
+    SQLiteDatabase db;
     String[] title, contents, timestamp, label;
     NotesListAdapter notesListAdapter;
     RecyclerView mainRecyclerView;
@@ -45,10 +43,8 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
         mainRecyclerView = findViewById(R.id.mainRecyclerView);
 
 
-        notesDbHelper = new NotesDbHelper(this);
-        notesDb = notesDbHelper.getReadableDatabase();
-        labelDbHelper = new LabelDbHelper(this);
-        labelDb = labelDbHelper.getReadableDatabase();
+        dbHelper = new DbHelper(this);
+        db = dbHelper.getReadableDatabase();
 
         loadNotesList();
 
@@ -80,16 +76,16 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
     }
 
     private void loadNotesList() {
-        String[] projections = {NotesDbHelper.TITLE, NotesDbHelper.CONTENTS,
-                NotesDbHelper.TIMESTAMP, LabelDbHelper.LABEL_NAME};
-        String[] labelProjection = {LabelDbHelper.LABEL_NAME, LabelDbHelper.PASSWORD};
+        String[] projections = {DbHelper.TITLE, DbHelper.CONTENTS,
+                DbHelper.TIMESTAMP, DbHelper.LABEL_NAME};
+        String[] labelProjection = {DbHelper.LABEL_NAME, DbHelper.PASSWORD};
 
         String tempContents;
 
-        Cursor c = notesDb.query(NotesDbHelper.TABLE_NAME, projections, null,
-                null, null ,null, NotesDbHelper.TIMESTAMP);
+        Cursor c = db.query(DbHelper.NOTES_TABLE_NAME, projections, null,
+                null, null ,null, DbHelper.TIMESTAMP);
 
-        Cursor labelC = labelDb.query(LabelDbHelper.TABLE_NAME, labelProjection, null,
+        Cursor labelC = db.query(DbHelper.LABEL_TABLE_NAME, labelProjection, null,
                 null, null, null,null);
 
 
@@ -118,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
 
     @Override
     public void onClick(String timestamp) {
-        Cursor c = notesDb.query(NotesDbHelper.TABLE_NAME, new String[]{LabelDbHelper.LABEL_NAME},
-                NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp},
+        Cursor c = db.query(DbHelper.NOTES_TABLE_NAME, new String[]{DbHelper.LABEL_NAME},
+                DbHelper.TIMESTAMP + "=?", new String[]{timestamp},
                 null, null, null);
         c.moveToFirst();
         Boolean pass = passProtected.get(c.getString(0));
@@ -159,11 +155,11 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
     public void viewNote(String timestamp, String enteredPassword) {
         Intent noteView = new Intent(this, ViewNote.class);
         Bundle extras = new Bundle();
-        String[] projections = {NotesDbHelper.TITLE, NotesDbHelper.CONTENTS,
-                NotesDbHelper.TIMESTAMP, LabelDbHelper.LABEL_NAME};
+        String[] projections = {DbHelper.TITLE, DbHelper.CONTENTS,
+                DbHelper.TIMESTAMP, DbHelper.LABEL_NAME};
 
-        Cursor c = notesDb.query(NotesDbHelper.TABLE_NAME, projections,
-                NotesDbHelper.TIMESTAMP + "=?", new String[]{timestamp},
+        Cursor c = db.query(DbHelper.NOTES_TABLE_NAME, projections,
+                DbHelper.TIMESTAMP + "=?", new String[]{timestamp},
                 null, null, null);
 
         c.moveToFirst();
@@ -177,20 +173,20 @@ public class MainActivity extends AppCompatActivity implements NotesListAdapter.
             passwordDialog.dismiss();
         }
 
-        extras.putString(NotesDbHelper.TITLE, c.getString(0));
-        extras.putString(NotesDbHelper.CONTENTS, c.getString(1));
-        extras.putString(NotesDbHelper.TIMESTAMP, c.getString(2));
-        extras.putString(LabelDbHelper.LABEL_NAME, c.getString(3));
+        extras.putString(DbHelper.TITLE, c.getString(0));
+        extras.putString(DbHelper.CONTENTS, c.getString(1));
+        extras.putString(DbHelper.TIMESTAMP, c.getString(2));
+        extras.putString(DbHelper.LABEL_NAME, c.getString(3));
         noteView.putExtras(extras);
         startActivity(noteView);
         c.close();
     }
 
     public Boolean authenticate(String label, String enteredPassword) {
-        String[] projections = new String[]{LabelDbHelper.PASSWORD};
+        String[] projections = new String[]{DbHelper.PASSWORD};
 
-        Cursor c = labelDb.query(LabelDbHelper.TABLE_NAME, projections,
-                LabelDbHelper.LABEL_NAME + "=?", new String[]{label}, null,
+        Cursor c = db.query(DbHelper.LABEL_TABLE_NAME, projections,
+                DbHelper.LABEL_NAME + "=?", new String[]{label}, null,
                 null, null);
         c.moveToFirst();
         Boolean res = c.getString(0).equals(enteredPassword);

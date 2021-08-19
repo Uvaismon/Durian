@@ -13,7 +13,7 @@ import android.util.Log;
 public class LabelList extends AppCompatActivity implements LabelListAdapter.LabelClickListener {
 
     String[] label;
-    LabelDbHelper labelDbHelper;
+    DbHelper labelDbHelper;
     SQLiteDatabase labelDb;
     String[] labelName;
     RecyclerView recyclerView;
@@ -23,9 +23,9 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_list);
-        labelDbHelper = new LabelDbHelper(this);
+        labelDbHelper = new DbHelper(this);
         recyclerView = findViewById(R.id.labelRecycler);
-        labelDbHelper = new LabelDbHelper(this);
+        labelDbHelper = new DbHelper(this);
         labelDb = labelDbHelper.getReadableDatabase();
 
         loadDb();
@@ -38,7 +38,7 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
 
     private void loadDb() {
 
-        Cursor c = labelDb.query(LabelDbHelper.TABLE_NAME, new String[] {LabelDbHelper.LABEL_NAME},
+        Cursor c = labelDb.query(DbHelper.LABEL_TABLE_NAME, new String[] {DbHelper.LABEL_NAME},
                 null, null, null, null, null);
 
         labelName = new String[c.getCount() + 1];
@@ -58,7 +58,7 @@ public class LabelList extends AppCompatActivity implements LabelListAdapter.Lab
         Intent intent = new Intent(this, CreateLabel.class);
 
         if (!element.equals("Add label")) {
-            intent.putExtra(LabelDbHelper.LABEL_NAME, element);
+            intent.putExtra(DbHelper.LABEL_NAME, element);
         }
         startActivity(intent);
 

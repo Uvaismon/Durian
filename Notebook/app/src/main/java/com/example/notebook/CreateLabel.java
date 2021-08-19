@@ -58,8 +58,8 @@ public class CreateLabel extends AppCompatActivity {
         });
 
         intent = getIntent();
-        if (intent.hasExtra(LabelDbHelper.LABEL_NAME)) {
-            prefilledLabel = intent.getStringExtra(LabelDbHelper.LABEL_NAME);
+        if (intent.hasExtra(DbHelper.LABEL_NAME)) {
+            prefilledLabel = intent.getStringExtra(DbHelper.LABEL_NAME);
             preFillData();
             
         deleteButton.setOnClickListener( v -> {
@@ -80,13 +80,13 @@ public class CreateLabel extends AppCompatActivity {
     }
 
     public void preFillData() {
-        LabelDbHelper labelDbHelper = new LabelDbHelper(this);
+        DbHelper labelDbHelper = new DbHelper(this);
         SQLiteDatabase labelDb = labelDbHelper.getReadableDatabase();
 
-        String[] projection = {LabelDbHelper.LABEL_NAME, LabelDbHelper.PASSWORD};
+        String[] projection = {DbHelper.LABEL_NAME, DbHelper.PASSWORD};
 
-        Cursor c = labelDb.query(LabelDbHelper.TABLE_NAME, projection,
-                LabelDbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel},
+        Cursor c = labelDb.query(DbHelper.LABEL_TABLE_NAME, projection,
+                DbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel},
                 null, null, null);
 
         c.moveToFirst();
@@ -99,26 +99,26 @@ public class CreateLabel extends AppCompatActivity {
     }
 
     private long dbInsert(String label_name, String  password) {
-        LabelDbHelper dbHelper = new LabelDbHelper(this);
+        DbHelper dbHelper = new DbHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(LabelDbHelper.LABEL_NAME, label_name);
-        values.put(LabelDbHelper.PASSWORD, password);
+        values.put(DbHelper.LABEL_NAME, label_name);
+        values.put(DbHelper.PASSWORD, password);
 
-        if(intent.hasExtra(LabelDbHelper.LABEL_NAME)) {
-            return db.update(LabelDbHelper.TABLE_NAME, values,
-                    LabelDbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel});
+        if(intent.hasExtra(DbHelper.LABEL_NAME)) {
+            return db.update(DbHelper.LABEL_TABLE_NAME, values,
+                    DbHelper.LABEL_NAME + "=?", new String[]{prefilledLabel});
         }
 
-        return db.insert(LabelDbHelper.TABLE_NAME, null, values);
+        return db.insert(DbHelper.LABEL_TABLE_NAME, null, values);
     }
     
     private long dbDelete(String label_name) {
-        LabelDbHelper labelDbHelper = new LabelDbHelper(this);
+        DbHelper labelDbHelper = new DbHelper(this);
         SQLiteDatabase labelDb = labelDbHelper.getWritableDatabase();
 
-        return labelDb.delete(LabelDbHelper.TABLE_NAME, LabelDbHelper.LABEL_NAME + "=?",
+        return labelDb.delete(DbHelper.LABEL_TABLE_NAME, DbHelper.LABEL_NAME + "=?",
                 new String[]{label_name});
     }
 }

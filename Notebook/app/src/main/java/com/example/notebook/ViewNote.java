@@ -13,7 +13,7 @@ public class ViewNote extends AppCompatActivity {
 
     TextView noteTitleBar, noteLabel, noteContent;
     Button editButton, deleteButton;
-    NotesDbHelper notesDbHelper;
+    DbHelper notesDbHelper;
     SQLiteDatabase notesDb;
     Intent noteView;
 
@@ -29,31 +29,31 @@ public class ViewNote extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteButton);
         noteView = getIntent();
 
-        noteTitleBar.setText(noteView.getStringExtra(NotesDbHelper.TITLE));
-        noteLabel.setText(noteView.getStringExtra(LabelDbHelper.LABEL_NAME));
-        noteContent.setText(noteView.getStringExtra(NotesDbHelper.CONTENTS));
+        noteTitleBar.setText(noteView.getStringExtra(DbHelper.TITLE));
+        noteLabel.setText(noteView.getStringExtra(DbHelper.LABEL_NAME));
+        noteContent.setText(noteView.getStringExtra(DbHelper.CONTENTS));
 
         editButton.setOnClickListener(
                 v -> {
                     Intent editIntent = new Intent(this, CreateNote.class);
-                    editIntent.setData(Uri.parse(noteView.getStringExtra(NotesDbHelper.TIMESTAMP)));
+                    editIntent.setData(Uri.parse(noteView.getStringExtra(DbHelper.TIMESTAMP)));
                     startActivity(editIntent);
                 }
         );
 
         deleteButton.setOnClickListener(
                 v -> {
-                    deleteNote(noteView.getStringExtra(NotesDbHelper.TIMESTAMP));
+                    deleteNote(noteView.getStringExtra(DbHelper.TIMESTAMP));
                 }
         );
     }
 
     public void deleteNote(String timestamp) {
-        notesDbHelper = new NotesDbHelper(this);
+        notesDbHelper = new DbHelper(this);
         notesDb = notesDbHelper.getWritableDatabase();
 
-        notesDb.delete(NotesDbHelper.TABLE_NAME,
-                NotesDbHelper.TIMESTAMP + "=?",
+        notesDb.delete(DbHelper.NOTES_TABLE_NAME,
+                DbHelper.TIMESTAMP + "=?",
                 new String[]{timestamp});
         startActivity(new Intent(this, MainActivity.class));
     }

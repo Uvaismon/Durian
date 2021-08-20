@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewNote extends AppCompatActivity {
 
@@ -58,6 +59,7 @@ public class ViewNote extends AppCompatActivity {
         notesDb.delete(DbHelper.NOTES_TABLE_NAME,
                 DbHelper.TIMESTAMP + "=?",
                 new String[]{timestamp});
+        Toast.makeText(this, "Note deleted", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, MainActivity.class));
     }
 

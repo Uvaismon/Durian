@@ -73,6 +73,7 @@ public class CreateLabel extends AppCompatActivity {
                Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show();
            }
            else
+               Toast.makeText(this, "Note deleted", Toast.LENGTH_LONG).show();
                startActivity(new Intent(this, LabelList.class));
         });
         

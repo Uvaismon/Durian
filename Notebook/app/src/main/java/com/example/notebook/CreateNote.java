@@ -133,14 +133,4 @@ public class CreateNote extends AppCompatActivity {
     private void go_home() {
         startActivity(new Intent(this, MainActivity.class));
     }
-
-    public void deleteNote(String timestamp) {
-        notesDbHelper = new DbHelper(this);
-        notesDb = notesDbHelper.getWritableDatabase();
-
-        notesDb.delete(DbHelper.NOTES_TABLE_NAME,
-                DbHelper.TIMESTAMP + "=?",
-                new String[]{timestamp});
-        startActivity(new Intent(this, MainActivity.class));
-    }
 }

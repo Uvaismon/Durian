@@ -45,18 +45,20 @@
 
             <Button
                 android:id="@+id/editButton"
-                android:layout_width="60sp"
+                android:layout_width="80sp"
                 android:layout_height="20sp"
+                android:layout_marginEnd="5sp"
                 android:background="@drawable/custom_button1"
                 android:text="@string/edit" />
 
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="60sp"
+                android:layout_width="80sp"
                 android:layout_height="20sp"
                 android:layout_below="@id/editButton"
                 android:background="@drawable/custom_button1"
-                android:layout_marginTop="5sp"
+                android:layout_marginEnd="5sp"
+                android:layout_marginTop="20sp"
                 android:text="@string/delete"/>
 
         </RelativeLayout>
@@ -69,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/entry_margin"
         android:text="This is a test content.\nPlease feel free to write anything here."
+        android:scrollbars="vertical"
         android:layout_below="@id/noteTitles"/>
 
 </RelativeLayout>

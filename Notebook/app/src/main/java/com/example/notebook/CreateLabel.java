@@ -100,6 +100,7 @@ public class CreateLabel extends AppCompatActivity {
         passwordEntry.setText(c.getString(1));
         createButton.setText(R.string.update);
         deleteButton.setVisibility(View.VISIBLE);
+        heading.setText(R.string.updateLabel);
         c.close();
     }
 

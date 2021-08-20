@@ -17,4 +17,5 @@
     <string name="labels">Labels</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="updateLabel">Update Label</string>
 </resources>
